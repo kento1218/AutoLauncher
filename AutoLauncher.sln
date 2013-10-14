@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoLauncherSrv", "AutoLauncherSrv\AutoLauncherSrv.csproj", "{5A2E9C5C-F217-444E-87C2-F7CFE4969B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{FC4D3A7A-A9B8-4003-94C7-2F29F5F11013}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A2E9C5C-F217-444E-87C2-F7CFE4969B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A2E9C5C-F217-444E-87C2-F7CFE4969B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A2E9C5C-F217-444E-87C2-F7CFE4969B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A2E9C5C-F217-444E-87C2-F7CFE4969B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC4D3A7A-A9B8-4003-94C7-2F29F5F11013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4D3A7A-A9B8-4003-94C7-2F29F5F11013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4D3A7A-A9B8-4003-94C7-2F29F5F11013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4D3A7A-A9B8-4003-94C7-2F29F5F11013}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
