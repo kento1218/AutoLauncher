@@ -67,7 +67,7 @@ namespace AutoLauncherSrv
             CurrentLogger("Thread started");
             while (!stop)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(3000);
                 ExecMonitor();
             }
             CurrentLogger("Thread stoped");
@@ -97,11 +97,10 @@ namespace AutoLauncherSrv
             {
                 var user = userDict[execinfo.user];
 
-                int? processID = execinfo.processID;
-                CheckAndExec(ref processID, execinfo.commandLine, user.name, user.password);
-                if (processID != execinfo.processID)
+                var proc = CheckAndExec(execinfo.processID, execinfo.commandLine, user.name, user.password);
+                if (proc != null && proc.Id != execinfo.processID)
                 {
-                    execinfo.processID = processID;
+                    execinfo.processID = proc.Id;
                     SaveSettings();
                 }
 
@@ -109,45 +108,49 @@ namespace AutoLauncherSrv
             }
         }
 
-        public void CheckAndExec(ref int? processID, string cmdline, string username, string password)
+        public Process CheckAndExec(int? processID, string cmdline, string username, string password)
         {
-            bool exists;
-            if (processID == null)
-            {
-                exists = false;
-            }
-            else
+            if (processID != null)
             {
                 try
                 {
-                    Process.GetProcessById(processID.Value);
-                    exists = true;
+                    return Process.GetProcessById(processID.Value);
                 }
                 catch (ArgumentException)
                 {
-                    exists = false;
                 }
             }
-            //CurrentLogger(string.Format("Process ({0}): {1}", processID, exists));
 
-            if (!exists)
+            UInt32? sessionID = Win32API.GetSessionID(username);
+            CurrentLogger(string.Format("Session: {0}", sessionID));
+            if (sessionID == null)
             {
-                UInt32? sessionID = Win32API.GetSessionID(username);
-                CurrentLogger(string.Format("Session: {0}", sessionID));
-                if (sessionID == null)
+                RdpClient.Connect("localhost", username, password);
+                while (sessionID == null)
                 {
-                    RdpClient.Connect("localhost", username, password);
-                    while (sessionID == null)
-                    {
-                        Thread.Sleep(100);
-                        sessionID = Win32API.GetSessionID(username);
-                    }
-                    Thread.Sleep(5000);
-                    RdpClient.Disconnect();
-                    CurrentLogger(string.Format("Created session: {0}", sessionID));
+                    Thread.Sleep(100);
+                    sessionID = Win32API.GetSessionID(username);
                 }
-                Win32API.CreateProcess(sessionID.Value, cmdline, out processID);
-                CurrentLogger(string.Format("Created process: {0}", processID));
+                Thread.Sleep(5000);
+                RdpClient.Disconnect();
+                CurrentLogger(string.Format("Created session: {0}", sessionID));
+            }
+
+            if (!Win32API.CreateProcess(sessionID.Value, cmdline, out processID))
+            {
+                CurrentLogger(string.Format("Create Process Error: {0}", Marshal.GetLastWin32Error()));
+                return null;
+            }
+            CurrentLogger(string.Format("Created process: {0}", processID));
+
+            try
+            {
+                return Process.GetProcessById(processID.Value);
+            }
+            catch (ArgumentException)
+            {
+                CurrentLogger("Cannot Create Process");
+                return null;
             }
         }
     }

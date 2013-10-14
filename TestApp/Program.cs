@@ -52,8 +52,7 @@ namespace TestApp
                     var mng = new SessionManager();
                     mng.RdpClient = client;
                     mng.CurrentLogger = Console.WriteLine;
-                    int? processID = null;
-                    mng.CheckAndExec(ref processID, cmdline, user, pass);
+                    mng.CheckAndExec(null, cmdline, user, pass);
                     continue;
                 }
                 if (line.StartsWith("config"))
