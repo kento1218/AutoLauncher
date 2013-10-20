@@ -17,7 +17,7 @@ namespace AutoLauncherSrv.RdpClient
             form = new RdpClientForm();
         }
 
-        public void Connect(string host, string user, string password)
+        public void Connect(string host, int port, string user, string password)
         {
             var client = form.RdpClient;
 
@@ -27,6 +27,7 @@ namespace AutoLauncherSrv.RdpClient
                     client.Server = host;
                     client.UserName = user;
                     client.AdvancedSettings2.ClearTextPassword = password;
+                    client.AdvancedSettings5.RDPPort = port;
 
                     client.Connect();
                 }));

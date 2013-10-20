@@ -16,6 +16,6 @@ namespace AutoLauncherSrv.RdpClient
             InitializeComponent();
         }
 
-        public AxMSTSCLib.AxMsRdpClientNotSafeForScripting RdpClient { get { return rdpClient; } }
+        public AxMSTSCLib.AxMsRdpClient5NotSafeForScripting RdpClient { get { return rdpClient; } }
     }
 }

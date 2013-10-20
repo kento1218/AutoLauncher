@@ -33,8 +33,13 @@ namespace TestApp
                     var host = connArg[1];
                     var user = connArg[2];
                     var pass = connArg[3];
-                    Console.WriteLine("connect to {0}", host);
-                    client.Connect(host, user, pass);
+                    int port = 0;
+                    if (connArg.Length > 4)
+                    {
+                        port = int.Parse(connArg[4]);
+                    }
+                    Console.WriteLine("connect to {0}:{1}", host, port);
+                    client.Connect(host, port, user, pass);
                     continue;
                 }
                 if (line.StartsWith("close"))

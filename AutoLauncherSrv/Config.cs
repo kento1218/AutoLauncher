@@ -7,6 +7,10 @@ namespace AutoLauncherSrv
 {
     public class Config
     {
+        public int rdpPort = 0;
+        public int poolingInterval = 3;
+        public int rdpWait = 5;
+
         public User[] users;
         public ExecInfo[] execInfo;
     }

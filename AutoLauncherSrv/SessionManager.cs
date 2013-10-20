@@ -40,10 +40,16 @@ namespace AutoLauncherSrv
         public void LoadSettings()
         {
             var serializer = new JsonSerializer();
-            using (var sr = new StreamReader(GetConfigFilePath()))
-            using (var json = new JsonTextReader(sr))
+            try
             {
-                config = serializer.Deserialize<Config>(json);
+                using (var sr = new StreamReader(GetConfigFilePath()))
+                using (var json = new JsonTextReader(sr))
+                {
+                    config = serializer.Deserialize<Config>(json);
+                }
+            }
+            catch(FileNotFoundException)
+            {
             }
         }
 
@@ -67,7 +73,7 @@ namespace AutoLauncherSrv
             CurrentLogger("Thread started");
             while (!stop)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(config.poolingInterval * 1000);
                 ExecMonitor();
             }
             CurrentLogger("Thread stoped");
@@ -125,13 +131,13 @@ namespace AutoLauncherSrv
             CurrentLogger(string.Format("Session: {0}", sessionID));
             if (sessionID == null)
             {
-                RdpClient.Connect("localhost", username, password);
+                RdpClient.Connect("localhost", config.rdpPort, username, password);
                 while (sessionID == null)
                 {
                     Thread.Sleep(100);
                     sessionID = Win32API.GetSessionID(username);
                 }
-                Thread.Sleep(5000);
+                Thread.Sleep(config.rdpWait * 1000);
                 RdpClient.Disconnect();
                 CurrentLogger(string.Format("Created session: {0}", sessionID));
             }

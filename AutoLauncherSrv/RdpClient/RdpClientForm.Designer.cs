@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RdpClientForm));
-            this.rdpClient = new AxMSTSCLib.AxMsRdpClientNotSafeForScripting();
+            this.rdpClient = new AxMSTSCLib.AxMsRdpClient5NotSafeForScripting();
             ((System.ComponentModel.ISupportInitialize)(this.rdpClient)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +57,8 @@
 
         #endregion
 
-        private AxMSTSCLib.AxMsRdpClientNotSafeForScripting rdpClient;
+        private AxMSTSCLib.AxMsRdpClient5NotSafeForScripting rdpClient;
+
 
     }
 }
